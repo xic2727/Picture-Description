@@ -1,0 +1,6 @@
+{
+  "name": "儿童看图写话教学平台",
+  "description": "专为低年级儿童设计的看图写话趣味学习平台。提供互动探索图片场景（可点击获取趣味词汇拼音）、拼写魔法词库、看图分步式引导（时间/人物/地点/事件/心情），并接入 Gemini 提供充满鼓励性的AI高光评分、荣誉勋章以及改写范文辅助。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
