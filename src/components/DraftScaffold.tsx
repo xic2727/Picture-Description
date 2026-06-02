@@ -92,8 +92,8 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
         <button
           id="tab-static-tips"
           onClick={() => setActiveTab('tips')}
-          className={`pb-2 px-1 text-xs font-bold font-sans tracking-tight border-b-2 transition duration-200 ${
-            activeTab === 'tips' ? 'border-amber-500 text-amber-600 font-black' : 'border-transparent text-slate-400 hover:text-slate-600'
+          className={`pb-2 px-1 text-sm font-bold font-sans tracking-tight border-b-2 transition duration-200 ${
+            activeTab === 'tips' ? 'border-amber-500 text-amber-600 font-extrabold' : 'border-transparent text-slate-400 hover:text-slate-600'
           }`}
         >
           📝 5大写作魔法支架
@@ -108,18 +108,18 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
               getMagicHints();
             }
           }}
-          className={`pb-2 px-1 text-xs font-bold font-sans tracking-tight border-b-2 flex items-center gap-1.5 transition duration-200 ${
-            activeTab === 'magic' ? 'border-indigo-500 text-indigo-600 font-black' : 'border-transparent text-slate-400 hover:text-indigo-500'
+          className={`pb-2 px-1 text-sm font-bold font-sans tracking-tight border-b-2 flex items-center gap-1.5 transition duration-200 ${
+            activeTab === 'magic' ? 'border-indigo-500 text-indigo-600 font-extrabold' : 'border-transparent text-slate-400 hover:text-indigo-500'
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5 animate-pulse" /> AI 创意魔法句式 ({magicHints.length > 0 ? '已就绪' : '获取'})
+          <Sparkles className="w-4 h-4 animate-pulse" /> AI 创意魔法句式 ({magicHints.length > 0 ? '已就绪' : '获取'})
         </button>
       </div>
 
       {activeTab === 'tips' ? (
         /* Traditional step scaffolding list */
         <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
-          <p className="text-[11px] text-slate-400 leading-normal mb-1 font-sans">
+          <p className="text-xs text-slate-500 leading-normal mb-1 font-sans">
             💡 看图写话秘籍：依次回答这5个小问题，就能拼出一个最棒的长故事啦！点击绿色词条可以直接放进写话本哦！
           </p>
           
@@ -130,13 +130,13 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
                 <div key={idx} className="bg-slate-50 border border-slate-100/50 rounded-2xl p-3 relative">
                   {/* Step index */}
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-black text-slate-700">{step.label}</span>
+                    <span className="text-sm font-black text-slate-700">{step.label}</span>
                     {matched ? (
-                      <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold flex items-center gap-0.5">
-                        <Check className="w-3 h-3" /> 已写到
+                      <span className="text-xs bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-0.5">
+                        <Check className="w-3.5 h-3.5" /> 已写到
                       </span>
                     ) : (
-                      <span className="text-[10px] text-slate-400 uppercase font-mono font-bold">待解锁</span>
+                      <span className="text-xs text-slate-450 uppercase font-mono font-bold">待解锁</span>
                     )}
                   </div>
                   
@@ -147,7 +147,7 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
                         key={exIdx}
                         id={`btn-add-scaffold-example-${idx}-${exIdx}`}
                         onClick={() => onAddText(ex)}
-                        className="text-xs bg-white hover:bg-emerald-50 text-slate-600 hover:text-emerald-800 border border-slate-200/60 hover:border-emerald-300 rounded-xl px-2.5 py-1 transition duration-150 active:scale-95 shadow-sm text-left truncate max-w-[200px]"
+                        className="text-sm bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-850 border border-slate-200 hover:border-emerald-300 rounded-xl px-3 py-1.5 transition duration-150 active:scale-95 shadow-sm text-left truncate max-w-[200px]"
                       >
                         {ex}
                       </button>
@@ -162,16 +162,16 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
         /* Gemini AI generated magic prompt templates */
         <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-[11px] text-slate-400 font-sans leading-tight">
+            <span className="text-xs text-slate-500 font-sans leading-tight">
               贝贝老师分析你选中的词，为你定制了故事开头和句式！
             </span>
             <button
               id="btn-re-generate-hints"
               onClick={getMagicHints}
               disabled={loading}
-              className="text-[10px] text-indigo-600 hover:text-indigo-800 font-black flex items-center gap-1 cursor-pointer disabled:opacity-50"
+              className="text-xs text-indigo-600 hover:text-indigo-800 font-extrabold flex items-center gap-1 cursor-pointer disabled:opacity-50"
             >
-              {loading && <Loader2 className="w-3 h-3 animate-spin" />}
+              {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
               🔄 换一换
             </button>
           </div>
@@ -180,12 +180,12 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3">
                 <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-                <p className="text-xs text-slate-400 animate-pulse font-sans">
+                <p className="text-sm text-slate-550 animate-pulse font-sans">
                   小熊猫比划着仙女棒，正在酝酿魔法词句...
                 </p>
               </div>
             ) : error ? (
-              <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-center text-xs text-indigo-800 space-y-2">
+              <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-center text-sm text-indigo-800 space-y-2">
                 <p>{error}</p>
                 <button
                   id="btn-retry-hints"
@@ -204,35 +204,35 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
                 {magicHints.map((hint, idx) => (
                   <div key={idx} className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-3.5 space-y-2.5 relative">
                     <div className="flex items-start gap-1">
-                      <span className="text-indigo-500 font-sans text-xs">💡</span>
-                      <h5 className="text-xs font-black text-indigo-950 pr-4">{hint.question}</h5>
+                      <span className="text-indigo-500 font-sans text-sm">💡</span>
+                      <h5 className="text-sm font-black text-indigo-950 pr-4">{hint.question}</h5>
                     </div>
 
                     {/* Template container */}
                     <div className="bg-white rounded-xl p-2.5 border border-indigo-100 flex justify-between items-center gap-2 shadow-sm">
-                      <p className="text-xs text-slate-700 leading-normal pl-1 flex-1 font-sans">
+                      <p className="text-sm text-slate-700 leading-relaxed pl-1 flex-1 font-sans">
                         “ {hint.template} ”
                       </p>
                       <button
                         id={`btn-add-hint-template-${idx}`}
                         onClick={() => onAddText(hint.template)}
                         type="button"
-                        className="text-[10px] bg-indigo-600 hover:bg-indigo-700 text-white font-bold shrink-0 px-2 py-1.5 rounded-lg flex items-center gap-0.5"
+                        className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold shrink-0 px-2.5 py-1.5 rounded-lg flex items-center gap-0.5"
                       >
-                        学写 <ArrowRight className="w-2.5 h-2.5" />
+                        学写 <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
 
                     {/* Word recommendations */}
                     <div className="flex items-center gap-1.5 overflow-hidden">
-                      <span className="text-[10px] font-black text-indigo-600 tracking-wider">好词推荐:</span>
+                      <span className="text-xs font-black text-indigo-600 tracking-wider">好词推荐:</span>
                       <div className="flex flex-wrap gap-1">
                         {hint.suggestedWords.map((word, wIdx) => (
                           <button
                             key={wIdx}
                             id={`btn-add-hint-word-${idx}-${wIdx}`}
                             onClick={() => onAddText(word)}
-                            className="bg-white border border-indigo-100 text-[10px] font-medium text-slate-600 hover:text-indigo-800 hover:bg-indigo-50 px-2 py-0.5 rounded-full"
+                            className="bg-white border border-indigo-100 text-xs font-medium text-slate-700 hover:text-indigo-800 hover:bg-indigo-50 px-2.5 py-1.5 rounded-full"
                           >
                             {word}
                           </button>
@@ -243,7 +243,7 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
                 ))}
               </motion.div>
             ) : (
-              <div className="text-center py-12 text-slate-400 text-xs">
+              <div className="text-center py-12 text-slate-500 text-sm">
                 点击按钮，召唤 AI 批改老师在您写作到难关时，赋予灵感吧！✨
               </div>
             )}

@@ -945,9 +945,9 @@ export default function SceneVisualizer({
             </div>
 
             {/* Hover Tooltip label */}
-            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white text-xs px-2 py-1 rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-30">
-              <span className="font-mono text-[9px] block text-slate-300 leading-none">{point.pinyin}</span>
-              <span className="font-medium text-xs">{point.label}</span>
+            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white text-sm px-2.5 py-1.5 rounded-lg shadow-md pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-30">
+              <span className="font-mono text-[10px] block text-slate-300 leading-none">{point.pinyin}</span>
+              <span className="font-semibold text-sm">{point.label}</span>
             </div>
           </motion.button>
         );
@@ -966,7 +966,7 @@ export default function SceneVisualizer({
             {/* Left Content info */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold ${
+                <span className={`text-xs uppercase tracking-wider px-2 py-0.5 rounded-full font-bold ${
                   selectedPoint.type === 'person' ? 'bg-orange-100 text-orange-700' :
                   selectedPoint.type === 'nature' ? 'bg-emerald-100 text-emerald-700' :
                   selectedPoint.type === 'object' ? 'bg-blue-100 text-blue-700' : 'bg-indigo-100 text-indigo-700'
@@ -979,7 +979,7 @@ export default function SceneVisualizer({
                 <button
                   id="btn-speak-vocab"
                   onClick={() => readAloud(selectedPoint.label)}
-                  className="flex items-center gap-1 text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-0.5 rounded-full font-medium transition"
+                  className="flex items-center gap-1 text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-0.5 rounded-full font-medium transition"
                   title="朗读这个词"
                 >
                   🔊 读音
@@ -987,11 +987,11 @@ export default function SceneVisualizer({
               </div>
 
               <div className="flex items-baseline gap-2">
-                <h3 className="text-xl font-bold text-slate-800 tracking-tight">{selectedPoint.label}</h3>
-                <span className="text-xs text-slate-400 font-mono">[{selectedPoint.pinyin}]</span>
+                <h3 className="text-2xl font-bold text-slate-800 tracking-tight">{selectedPoint.label}</h3>
+                <span className="text-sm text-slate-400 font-mono">[{selectedPoint.pinyin}]</span>
               </div>
               
-              <p className="text-sm text-slate-600 mt-1 pl-1 border-l-2 border-amber-300 leading-relaxed font-sans">
+              <p className="text-base text-slate-650 mt-1.5 pl-1.5 border-l-2 border-amber-300 leading-relaxed font-sans">
                 {selectedPoint.description}
               </p>
             </div>
@@ -1001,7 +1001,7 @@ export default function SceneVisualizer({
               <button
                 id="btn-read-sentence"
                 onClick={() => readAloud(selectedPoint.description)}
-                className="flex-1 md:flex-initial text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold px-3 py-2 rounded-xl transition duration-150 flex items-center justify-center gap-1.5"
+                className="flex-1 md:flex-initial text-sm bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold px-3.5 py-2 rounded-xl transition duration-150 flex items-center justify-center gap-1.5"
               >
                 🔊 听示范句
               </button>
@@ -1013,7 +1013,7 @@ export default function SceneVisualizer({
                   // Quick flash notification of success
                   readAloud("已放入本子");
                 }}
-                className="flex-1 md:flex-initial text-xs bg-rose-500 hover:bg-rose-600 active:transform active:scale-95 text-white font-bold px-3 py-2 rounded-xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center gap-1"
+                className="flex-1 md:flex-initial text-sm bg-rose-500 hover:bg-rose-600 active:transform active:scale-95 text-white font-bold px-3.5 py-2 rounded-xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center gap-1"
               >
                 <Plus className="w-3.5 h-3.5" /> 放入写话本
               </button>
@@ -1021,7 +1021,7 @@ export default function SceneVisualizer({
               <button
                 id="btn-close-explore-card"
                 onClick={() => setSelectedPoint(null)}
-                className="text-xs text-slate-400 hover:text-slate-600 px-2 py-2"
+                className="text-sm text-slate-400 hover:text-slate-600 px-2.5 py-2"
               >
                 关闭
               </button>

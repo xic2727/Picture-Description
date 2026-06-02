@@ -49,10 +49,10 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
         {/* Header Action Row */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🐼</span>
+            <span className="text-3xl">🐼</span>
             <div>
-              <h2 className="text-xl font-bold text-slate-800 leading-none">贝贝老师的批改报告</h2>
-              <p className="text-[10px] text-slate-400 mt-1 font-sans">Look-and-Write AI Evaluation Portfolio</p>
+              <h2 className="text-2xl font-black text-slate-850 leading-none">贝贝老师的批改报告</h2>
+              <p className="text-xs text-slate-400 mt-1 font-sans">Look-and-Write AI Evaluation Portfolio</p>
             </div>
           </div>
           <button
@@ -69,7 +69,7 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
           
           {/* Stars visualizer column (4 cols on wide) */}
           <div className="md:col-span-4 text-center md:border-r border-amber-200/50 md:pr-4">
-            <span className="text-[11px] font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full uppercase tracking-wider block w-max mx-auto mb-2.5">
+            <span className="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1.5 rounded-full uppercase tracking-wider block w-max mx-auto mb-2.5">
               写作星级系数
             </span>
             
@@ -84,30 +84,30 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
                   >
-                    <Star className={`w-8 h-8 ${filled ? 'fill-amber-400 text-amber-400 drop-shadow' : 'text-slate-200 fill-slate-100'}`} />
+                    <Star className={`w-9 h-9 ${filled ? 'fill-amber-400 text-amber-400 drop-shadow' : 'text-slate-200 fill-slate-100'}`} />
                   </motion.div>
                 );
               })}
             </div>
-            <p className="text-sm font-bold text-slate-600 font-mono mt-1">
-              满星收获: <span className="text-amber-500 text-lg">{report.stars}</span> / 5
+            <p className="text-base font-bold text-slate-600 font-mono mt-1">
+              满星收获: <span className="text-amber-500 text-xl font-black">{report.stars}</span> / 5
             </p>
           </div>
 
           {/* Badge Visualiser column (8 cols) */}
           <div className="md:col-span-8 flex flex-col md:flex-row items-center gap-4 pl-0 md:pl-2">
             <div className="bg-gradient-to-tr from-rose-400 to-amber-300 p-3.5 rounded-2xl text-white shadow-md animate-bounce-slow shrink-0">
-              <Trophy className="w-10 h-10" />
+              <Trophy className="w-12 h-12" />
             </div>
             
             <div className="text-center md:text-left">
-              <h3 className="text-xs font-bold text-rose-500 uppercase tracking-widest leading-none mb-1">
+              <h3 className="text-sm font-extrabold text-rose-500 uppercase tracking-widest leading-none mb-1.5">
                 恭喜你！解锁了特殊荣誉勋章
               </h3>
-              <p className="text-2xl font-black text-slate-800 tracking-tight drop-shadow-sm">
+              <p className="text-3xl font-black text-slate-800 tracking-tight drop-shadow-sm">
                 {report.badge}
               </p>
-              <p className="text-xs text-slate-400 mt-1 max-w-sm leading-relaxed">
+              <p className="text-sm text-slate-500 mt-1 max-w-sm leading-relaxed">
                 太棒了！贝贝老师已经把这枚荣誉写在你的专属成长日志里啦，继续加油哦！
               </p>
             </div>
@@ -118,7 +118,7 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
         {/* Content Details: Review, Gold Words, Tips, Exemplar */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Left Column (8 cols): Feedback & Gems */}
+          {/* Left Column (7 cols): Feedback & Gems */}
           <div className="lg:col-span-7 space-y-6">
             
             {/* Mascot Voice bubble */}
@@ -127,27 +127,27 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
               <div className="absolute top-5 left-4 text-3xl">🐼</div>
               
               <div className="flex justify-between items-start mb-2">
-                <h4 className="text-sm font-black text-indigo-950 flex items-center gap-1">
+                <h4 className="text-base font-black text-indigo-955 flex items-center gap-1.5">
                   贝贝老师的评语
                 </h4>
                 <button
                   id="btn-speak-teacher-review"
                   onClick={speakTeacherReview}
-                  className="text-xs text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5 active:scale-95 transition"
+                  className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center gap-1 active:scale-95 transition"
                 >
-                  <Volume2 className="w-3.5 h-3.5" /> 听老师语音
+                  <Volume2 className="w-4.5 h-4.5" /> 听老师语音
                 </button>
               </div>
 
-              <p className="text-sm text-slate-600 leading-relaxed font-sans">
+              <p className="text-base text-slate-650 leading-relaxed font-sans">
                 {report.summary}
               </p>
             </div>
 
             {/* Glowing Golden Sentence Highlights */}
             <div id="gold-sentences-container" className="bg-emerald-50/40 border border-emerald-100 rounded-3xl p-5">
-              <h4 className="text-sm font-black text-emerald-800 mb-3.5 flex items-center gap-1.5">
-                <Highlighter className="w-4 h-4 text-emerald-600" /> 闪光金句高能时刻
+              <h4 className="text-base font-black text-emerald-850 mb-3.5 flex items-center gap-1.5">
+                <Highlighter className="w-5 h-5 text-emerald-600" /> 闪光金句高能时刻
               </h4>
 
               {report.goldSentences && report.goldSentences.length > 0 ? (
@@ -162,17 +162,17 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
                     >
                       {/* background marker pen effect highlight */}
                       <span className="absolute left-0 top-0 bottom-0 right-0 bg-yellow-100/20 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                      <p className="text-sm font-medium text-slate-700 leading-relaxed relative z-10">
+                      <p className="text-base font-semibold text-slate-750 leading-relaxed relative z-10">
                         ✨ “ {sentence} ”
                       </p>
-                      <span className="text-[10px] text-emerald-600 font-bold block mt-1 relative z-10">
+                      <span className="text-xs text-emerald-600 font-extrabold block mt-1 relative z-10">
                         👍 这里用字超级生动！贝贝老师给你点赞！
                       </span>
                     </motion.div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-4 text-slate-400 text-xs">
+                <div className="text-center py-4 text-slate-400 text-sm">
                   你的字句很完整，下一次如果加上精彩的比喻或叠词（比如：红通通、圆滚滚），会有更多金句被选上哦！
                 </div>
               )}
@@ -180,8 +180,8 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
 
             {/* Kids Draft Showroom (readability reference) */}
             <div className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
-              <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">孩子的原文小档案</h5>
-              <p className="text-xs text-slate-500 whitespace-pre-wrap leading-relaxed max-h-24 overflow-y-auto font-mono">
+              <h5 className="text-xs font-bold text-slate-450 uppercase tracking-wider mb-1.5">孩子的原文小档案</h5>
+              <p className="text-sm text-slate-500 whitespace-pre-wrap leading-relaxed max-h-24 overflow-y-auto font-mono">
                 {childText}
               </p>
             </div>
@@ -193,7 +193,7 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
             
             {/* Checklist Tips */}
             <div id="missing-tips-card" className="bg-purple-50/50 border border-purple-100 rounded-3xl p-5">
-              <h4 className="text-sm font-black text-purple-900 mb-3.5 flex items-center gap-1.5">
+              <h4 className="text-base font-black text-purple-950 mb-3.5 flex items-center gap-1.5">
                 🍭 写话升级小妙招
               </h4>
               
@@ -204,7 +204,7 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="flex items-start gap-2 text-xs text-purple-950 font-medium leading-relaxed bg-white p-2 rounded-xl border border-purple-200/50"
+                    className="flex items-start gap-2 text-sm text-purple-950 font-medium leading-relaxed bg-white p-2 rounded-xl border border-purple-200/50"
                   >
                     <span className="text-purple-500 text-sm mt-0.5">🌟</span>
                     <span>{tip}</span>
@@ -221,7 +221,7 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
               </div>
 
               <div className="flex justify-between items-center mb-3">
-                <h4 className="text-sm font-black text-indigo-950 flex items-center gap-1">
+                <h4 className="text-base font-black text-indigo-955 flex items-center gap-1.5">
                   📚 贝贝老师的改写范文
                 </h4>
                 
@@ -229,30 +229,30 @@ export default function GradeReport({ report, onClose, childText }: GradeReportP
                   <button
                     id="btn-speak-rework"
                     onClick={speakReworkText}
-                    className="text-xs text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5 transition active:scale-90"
+                    className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center gap-1 transition active:scale-90"
                     title="高音质辅导朗读"
                   >
-                    <Volume2 className="w-3.5 h-3.5" /> 听范文
+                    <Volume2 className="w-4.5 h-4.5" /> 听范文
                   </button>
                   
                   <button
                     id="btn-copy-rework"
                     onClick={handleCopyCode}
-                    className="text-xs text-slate-500 hover:text-slate-700 flex items-center gap-0.5 transition active:scale-90"
+                    className="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1 transition active:scale-90"
                     title="把范文复制下来去本子练习"
                   >
-                    <Copy className="w-3 h-3" /> {copied ? '已复制' : '复制'}
+                    <Copy className="w-3.5 h-3.5" /> {copied ? '已复制' : '复制'}
                   </button>
                 </div>
               </div>
 
               <div className="bg-white/80 border border-indigo-100 rounded-2xl p-4 shadow-inner">
-                <p className="text-sm text-slate-700 font-sans leading-loose tracking-wide">
+                <p className="text-base text-slate-800 font-sans leading-loose tracking-wide font-medium">
                   {report.rework}
                 </p>
               </div>
 
-              <p className="text-[10px] text-slate-400 mt-2.5 text-center leading-normal">
+              <p className="text-xs text-slate-400 mt-2.5 text-center leading-normal">
                 💡 多多大声朗读，可以帮助句子变得更神奇哦！
               </p>
             </div>

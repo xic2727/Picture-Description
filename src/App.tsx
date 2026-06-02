@@ -232,15 +232,15 @@ export default function App() {
             </div>
             
             <div className="text-center sm:text-left">
-              <h1 className="text-xl font-extrabold text-slate-800 tracking-tight flex items-center justify-center sm:justify-start gap-1">
+              <h1 className="text-2xl font-black text-slate-800 tracking-tight flex items-center justify-center sm:justify-start gap-1">
                 儿童看图写话乐园 
-                <span className="text-xs bg-rose-500 text-white font-sans px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider scale-90">
+                <span className="text-xs bg-rose-500 text-white font-sans px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider scale-95">
                   AI 语文精灵
                 </span>
               </h1>
               
               {/* Slogan */}
-              <div className="text-slate-400 text-xs font-medium font-sans flex items-center justify-center sm:justify-start gap-1.5 mt-0.5">
+              <div className="text-slate-500 text-sm font-semibold font-sans flex items-center justify-center sm:justify-start gap-1.5 mt-1">
                 <span>🌟 拼音拼写伴读</span>
                 <span>•</span>
                 <span>🎨 互动趣味图像</span>
@@ -257,9 +257,9 @@ export default function App() {
             <button
               id="btn-toggle-sidebar"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className={`border-2 px-3.5 py-1.5 rounded-2xl font-bold font-sans text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95 ${
+              className={`border-2 px-3.5 py-1.5 rounded-2xl font-black font-sans text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95 ${
                 isSidebarOpen
-                  ? 'bg-amber-100 border-amber-300 text-amber-800'
+                  ? 'bg-amber-100 border-amber-300 text-amber-805'
                   : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -271,8 +271,8 @@ export default function App() {
             <div className="bg-amber-50 border-2 border-amber-200/50 rounded-2xl px-3.5 py-1.5 flex items-center gap-2 shadow-sm">
               <Trophy className="w-5 h-5 text-amber-500 fill-current animate-pulse" />
               <div>
-                <span className="text-[10px] text-amber-600 font-bold block leading-none">荣誉大奖章星数</span>
-                <span className="text-base font-black text-slate-800 tracking-tight">
+                <span className="text-[11px] text-amber-600 font-bold block leading-none">荣誉大奖章星数</span>
+                <span className="text-lg font-black text-slate-850 tracking-tight">
                   ⭐ {totalStars} 个能量星
                 </span>
               </div>
@@ -385,22 +385,22 @@ export default function App() {
                         </span>
 
                         <div className="min-w-0 flex-1">
-                          <span className={`text-[8.5px] uppercase font-bold block leading-none truncate ${isActive ? 'text-indigo-300' : 'text-slate-400'}`}>
+                          <span className={`text-[10px] uppercase font-bold block leading-none truncate ${isActive ? 'text-indigo-300' : 'text-slate-400'}`}>
                             {scene.pinyin}
                           </span>
-                          <h4 className={`text-sm font-black truncate mt-1 ${isActive ? 'text-white' : 'text-slate-800'}`}>
+                          <h4 className={`text-base font-black truncate mt-1.5 ${isActive ? 'text-white' : 'text-slate-800'}`}>
                             {scene.title}
                           </h4>
 
                           {/* Completed info label */}
                           {isCompleted && (
                             <div className="flex items-center gap-1 mt-1">
-                              <span className="text-[8px] bg-emerald-100 text-emerald-800 px-1 py-0.2 rounded font-bold">
+                              <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1 py-0.2 rounded font-bold">
                                 已写过
                               </span>
                               <div className="flex text-amber-400">
                                 {Array.from({ length: bestStars }).map((_, idx) => (
-                                  <span key={idx} className="text-[9px] -ml-0.5">⭐</span>
+                                  <span key={idx} className="text-[11px] -ml-0.5">⭐</span>
                                 ))}
                               </div>
                             </div>
@@ -416,7 +416,7 @@ export default function App() {
                 </div>
 
                 {/* Info Card hint footer in sidebar */}
-                <div className="bg-amber-50/50 border border-amber-100/50 rounded-2xl p-2.5 text-center text-[10px] text-amber-800 font-medium shrink-0">
+                <div className="bg-amber-50/50 border border-amber-100/50 rounded-2xl p-2.5 text-center text-xs text-amber-805 font-bold shrink-0">
                   💡 每天早晨 8 点和傍晚 6 点<br/>获取今日推送的写话秘籍！
                 </div>
 
@@ -461,26 +461,26 @@ export default function App() {
               {/* Scene instructions Header */}
               <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-2 border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md shrink-0">
+                  <span className="text-sm bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md shrink-0">
                     🔍 探索词汇
                   </span>
                   
                   <div className="truncate">
-                    <span className="text-[10px] text-slate-400 font-bold block leading-none truncate font-sans">{currentScene.pinyin}</span>
-                    <h2 className="text-base font-bold text-slate-800 truncate leading-none mt-1">
+                    <span className="text-xs text-slate-400 font-bold block leading-none truncate font-sans">{currentScene.pinyin}</span>
+                    <h2 className="text-lg font-black text-slate-800 truncate leading-none mt-1.5">
                       看图大发现：点击画中闪光点探索词汇
                     </h2>
                   </div>
                 </div>
 
                 {/* Explorer stars progress bubble */}
-                <div className={`px-3 py-1 rounded-full font-bold text-xs shrink-0 flex items-center gap-1.5 ${
+                <div className={`px-3 py-1 rounded-full font-bold text-sm shrink-0 flex items-center gap-1.5 ${
                   isAllExplored 
                     ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' 
                     : 'bg-slate-100 text-slate-600'
                 }`}>
                   <span>🕵️‍♂️ 已收获:</span>
-                  <span className="font-extrabold text-sm">{exploredIds.length}</span>
+                  <span className="font-extrabold text-base">{exploredIds.length}</span>
                   <span>/</span>
                   <span>{currentScene.explorePoints.length} 词</span>
                   {isAllExplored && <span className="animate-bounce">🌟</span>}
@@ -500,14 +500,14 @@ export default function App() {
               {/* Explored Words Cloud */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-400 flex items-center gap-0.5">
+                  <span className="text-sm font-bold text-slate-400 flex items-center gap-0.5">
                     🍭 已发现的好词行李箱 ({exploredIds.length} / {currentScene.explorePoints.length})
                   </span>
                   {isAllExplored && (
                     <motion.span 
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="text-[10px] text-emerald-600 font-black"
+                      className="text-xs text-emerald-600 font-extrabold"
                     >
                       🎉 观察力太秀啦！全部探索完成！
                     </motion.span>
@@ -525,14 +525,14 @@ export default function App() {
                           whileTap={{ scale: 0.95 }}
                           key={pt.id}
                           onClick={() => appendTextToDraft(pt.label)}
-                          className="bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-900 px-3 py-1.5 rounded-xl shadow-sm text-xs font-bold text-left cursor-pointer transition flex flex-col"
+                          className="bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-900 px-3 py-1.5 rounded-xl shadow-sm text-sm font-bold text-left cursor-pointer transition flex flex-col"
                         >
-                          <span className="text-[8px] font-mono opacity-50 block leading-none">{pt.pinyin}</span>
-                          <span className="leading-tight mt-0.5">{pt.label}</span>
+                          <span className="text-[10px] font-mono opacity-50 block leading-none">{pt.pinyin}</span>
+                          <span className="text-base font-black leading-tight mt-1">{pt.label}</span>
                         </motion.button>
                       ))
                   ) : (
-                    <p className="text-xs text-slate-400 w-full text-center leading-normal">
+                    <p className="text-sm text-slate-400 w-full text-center leading-normal">
                       这里空空如也，请快快点击图画中的✨黄色闪亮小星星✨，找出隐藏的水墨故事好词吧！
                     </p>
                   )}
@@ -545,9 +545,9 @@ export default function App() {
             <div className="bg-slate-50 border border-slate-100 rounded-3xl p-4 flex gap-3.5 items-start">
               <span className="text-2xl mt-0.5 shrink-0">🎒</span>
               <div>
-                <h4 className="text-sm font-black text-slate-700 leading-tight">画幅大意背景知识</h4>
-                <p className="text-xs text-slate-400 font-mono mt-0.5">Understanding Scene Framework</p>
-                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                <h4 className="text-base font-black text-slate-800 leading-tight">画幅大意背景知识</h4>
+                <p className="text-sm text-slate-400 font-mono mt-0.5">Understanding Scene Framework</p>
+                <p className="text-sm text-slate-650 mt-2 leading-relaxed">
                   {currentScene.description}
                 </p>
               </div>
@@ -571,11 +571,11 @@ export default function App() {
               
               {/* Toolbar Section header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xl">📓</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">📓</span>
                   <div>
-                    <h3 className="text-sm font-black text-slate-800 leading-none">看图写话练习本</h3>
-                    <p className="text-[9px] text-slate-400 mt-0.5">My Creative Writing Grid</p>
+                    <h3 className="text-base font-black text-slate-800 leading-none">看图写话练习本</h3>
+                    <p className="text-xs text-slate-400 mt-0.5">My Creative Writing Grid</p>
                   </div>
                 </div>
 
@@ -584,7 +584,7 @@ export default function App() {
                   <button
                     id="btn-toggle-pinyin-grid"
                     onClick={() => setIsPinyinMode(!isPinyinMode)}
-                    className={`px-2.5 py-1 text-[10px] rounded-lg font-black transition ${
+                    className={`px-3 py-1.5 text-xs rounded-lg font-black transition ${
                       isPinyinMode 
                         ? 'bg-amber-100 text-amber-800 border border-amber-200' 
                         : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
@@ -597,10 +597,10 @@ export default function App() {
                   <button
                     id="btn-erase-draft"
                     onClick={handleClearDraft}
-                    className="text-xs text-slate-400 hover:text-rose-500 flex items-center gap-0.5 transition active:scale-90"
+                    className="text-sm text-slate-400 hover:text-rose-500 flex items-center gap-1 transition active:scale-90"
                     title="擦掉小本子"
                   >
-                    <Eraser className="w-3.5 h-3.5" /> 擦除
+                    <Eraser className="w-4 h-4" /> 擦除
                   </button>
                 </div>
               </div>
@@ -615,20 +615,20 @@ export default function App() {
 
 (可以用手指点击左边的“词汇行李箱”，或者选择上面的“写作魔法支架”，好词句就会一键飞进写话本里哦！)"
                   rows={7}
-                  className={`w-full p-4 text-slate-700 placeholder-slate-400 outline-none rounded-2xl text-base leading-relaxed tracking-wide transition border-2 ${
+                  className={`w-full p-4 text-slate-705 placeholder-slate-400 outline-none rounded-2xl text-lg tracking-wide transition border-2 ${
                     isPinyinMode 
                       ? 'bg-[#faf8f5] dark:placeholder-slate-400 font-sans border-rose-100/70 shadow-inner' 
                       : 'bg-slate-50 font-serif border-slate-100'
                   }`}
                   style={isPinyinMode ? {
                     backgroundImage: 'linear-gradient(#fecdd3 1px, transparent 1px), linear-gradient(90deg, #fecdd3 1px, transparent 1px)',
-                    backgroundSize: '32px 32px',
-                    lineHeight: '32px'
+                    backgroundSize: '36px 36px',
+                    lineHeight: '36px'
                   } : {}}
                 />
 
                 {/* Character Counter watermark */}
-                <div className="absolute right-3.5 bottom-3 text-[10px] font-bold text-slate-400 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full border border-slate-100 font-mono">
+                <div className="absolute right-3.5 bottom-3 text-xs font-bold text-slate-400 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full border border-slate-100 font-mono">
                   写了: <span className="text-slate-700">{draftText.length}</span> / 建议: 20-150字
                 </div>
               </div>
@@ -639,13 +639,13 @@ export default function App() {
                   id="btn-trigger-grading"
                   onClick={handleGradeSubmission}
                   disabled={isGrading || draftText.trim().length === 0}
-                  className="w-full bg-gradient-to-r from-[#d97706] to-[#b45309] hover:from-[#b45309] hover:to-[#78350f] disabled:from-slate-200 disabled:to-slate-300 transform active:scale-98 disabled:pointer-events-none text-white font-extrabold py-3 px-6 rounded-2xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-[#d97706] to-[#b45309] hover:from-[#b45309] hover:to-[#78350f] disabled:from-slate-200 disabled:to-slate-300 transform active:scale-98 disabled:pointer-events-none text-white font-extrabold py-3.5 px-6 rounded-2xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center gap-2 text-lg"
                 >
-                  <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
+                  <Sparkles className="w-5.5 h-5.5 text-yellow-300 animate-pulse" />
                   写好啦！召唤熊猫贝贝批改 ✨
                 </button>
 
-                <p className="text-[10px] text-slate-400 text-center leading-normal">
+                <p className="text-xs text-slate-400 text-center leading-normal font-medium">
                   💡 贝贝老师的批改超级温柔哦，不仅给你大奖章，还会帮你找出错别字，教你把短句变成更美丽的成语文章！
                 </p>
               </div>
@@ -660,8 +660,8 @@ export default function App() {
                   >
                     🐼
                   </motion.div>
-                  <h4 className="text-xs font-black text-indigo-750 animate-pulse">{loadingStep}</h4>
-                  <p className="text-[10px] text-slate-400 font-sans">请耐心等待片刻，大奖章打磨中...</p>
+                  <h4 className="text-sm font-black text-indigo-750 animate-pulse">{loadingStep}</h4>
+                  <p className="text-xs text-slate-400 font-sans">请耐心等待片刻，大奖章打磨中...</p>
                 </div>
               )}
 
