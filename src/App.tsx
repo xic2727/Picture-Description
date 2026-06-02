@@ -5,6 +5,7 @@ import { Scene, ExplorePoint, AIFeedback, GradeHistoryItem } from './types';
 import SceneVisualizer from './components/SceneVisualizer';
 import DraftScaffold from './components/DraftScaffold';
 import GradeReport from './components/GradeReport';
+import { getAISettings, saveAISettings, gradeSubmission, AISettings, PRESETS } from './lib/aiService';
 import { 
   Sparkles, 
   BookOpen, 
@@ -20,7 +21,8 @@ import {
   MessageCircle,
   Lightbulb,
   Menu,
-  ChevronLeft
+  ChevronLeft,
+  Settings
 } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'look_and_write_history';
@@ -41,6 +43,10 @@ export default function App() {
   const [isGrading, setIsGrading] = useState<boolean>(false);
   const [gradeError, setGradeError] = useState<string | null>(null);
   const [loadingStep, setLoadingStep] = useState<string>('🐼 正在酝酿魔法能量...');
+  
+  // AI Settings
+  const [aiSettings, setAiSettings] = useState<AISettings>(getAISettings());
+  const [showAiSettings, setShowAiSettings] = useState<boolean>(false);
   
   // History & Rewards
   const [history, setHistory] = useState<GradeHistoryItem[]>([]);
@@ -128,6 +134,12 @@ export default function App() {
       return;
     }
 
+    if (!aiSettings.apiKey) {
+      setGradeError("请先点击右上角的【⚙️ AI 助手设置】按钮配置 API Key 密钥，才能召唤熊猫贝贝批改作业哦！");
+      setShowAiSettings(true);
+      return;
+    }
+
     setIsGrading(true);
     setGradeError(null);
     setAiFeedback(null);
@@ -135,7 +147,7 @@ export default function App() {
     // Dynamic loading texts sequence to make delay delightfully gamified for kids
     const steps = [
       '🐼 贝贝老师正戴上放大镜，仔细看图画...',
-      '🎨 正在对比你找齐的词汇秘籍...',
+      '🎨 正在对比你找齐磁汇秘籍...',
       '✍️ 正在用红色粉笔圈画你的闪光金句...',
       '🍬 正在为您撰写甜甜的评语和奖金星级...',
       '🏅 呼！大奖章正在抛光，马上送达拉！'
@@ -150,25 +162,10 @@ export default function App() {
     }, 1800);
 
     try {
-      const response = await fetch('/api/grade', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sceneId: currentScene.id,
-          sceneTitle: currentScene.title,
-          sceneDesc: currentScene.description,
-          childText: draftText
-        })
-      });
+      const reportData = await gradeSubmission(aiSettings, currentScene, draftText);
 
       clearInterval(interval);
 
-      if (!response.ok) {
-        const errJson = await response.json();
-        throw new Error(errJson.error || "发生了神秘的拼写魔法故障。");
-      }
-
-      const reportData: AIFeedback = await response.json();
       setAiFeedback(reportData);
 
       // Save record in local history
@@ -286,6 +283,16 @@ export default function App() {
             >
               <BookOpen className="w-4 h-4" />
               我的写话册
+            </button>
+
+            {/* AI Settings Button */}
+            <button
+              id="btn-open-ai-settings"
+              onClick={() => setShowAiSettings(true)}
+              className="bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-200 text-emerald-700 px-4 py-2 rounded-2xl font-bold font-sans text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95"
+            >
+              <Settings className="w-4 h-4" />
+              AI 助手设置
             </button>
           </div>
 
@@ -564,6 +571,8 @@ export default function App() {
               exploredWords={currentScene.explorePoints.filter(p => exploredIds.includes(p.id)).map(p => p.label)}
               onAddText={appendTextToDraft}
               draftText={draftText}
+              aiSettings={aiSettings}
+              onOpenSettings={() => setShowAiSettings(true)}
             />
 
             {/* Core Writing Workbook */}
@@ -793,6 +802,168 @@ export default function App() {
           Powered by Gemini 3.5 AI Super Teaching Assistant & React Motion Suite
         </p>
       </footer>
+
+      {/* AI Settings Modal */}
+      <AnimatePresence>
+        {showAiSettings && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-3xl p-6 md:p-8 max-w-xl w-full border-4 border-emerald-400 shadow-2xl relative overflow-hidden"
+            >
+              {/* Sparkle background elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full blur-3xl opacity-60 -z-10" />
+              
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="bg-emerald-100 p-2 rounded-xl text-emerald-700">
+                    <Settings className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-black text-slate-800 leading-tight">⚙️ AI 助手配置中心</h2>
+                    <p className="text-xs text-slate-500 mt-1 font-semibold">让可爱的 AI 老师（贝贝老师）为您一对一批改和提供灵感！</p>
+                  </div>
+                </div>
+                
+                <button
+                  id="btn-close-settings-modal"
+                  onClick={() => setShowAiSettings(false)}
+                  className="bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 rounded-full w-8 h-8 flex items-center justify-center transition active:scale-95 border border-slate-200"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Form container */}
+              <div className="space-y-4">
+                
+                {/* Provider Selector Preset */}
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-700 flex items-center gap-1">
+                    <span>1. 选择 AI 服务提供商</span>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold">极速预设</span>
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {Object.entries(PRESETS).map(([key, value]) => {
+                      const isSelected = aiSettings.preset === key;
+                      return (
+                        <button
+                          key={key}
+                          id={`preset-btn-${key}`}
+                          onClick={() => {
+                            const updated: AISettings = {
+                              apiKey: aiSettings.apiKey,
+                              preset: key as any,
+                              baseUrl: value.baseUrl,
+                              model: value.model,
+                            };
+                            setAiSettings(updated);
+                          }}
+                          className={`px-3 py-2.5 rounded-2xl text-xs font-bold font-sans transition-all active:scale-95 border-2 text-center flex flex-col items-center justify-center gap-1 ${
+                            isSelected
+                              ? 'bg-emerald-50 border-emerald-500 text-emerald-850 shadow-inner'
+                              : 'bg-white border-slate-150 text-slate-550 hover:bg-slate-50'
+                          }`}
+                        >
+                          <span className="text-md">
+                            {key === 'openai' ? '🇺🇸' : 
+                             key === 'deepseek' ? '🇨🇳' : 
+                             key === 'gemini' ? '🪐' : 
+                             key === 'moonshot' ? '🌙' : 
+                             key === 'siliconflow' ? '⚡' : '⚙️'}
+                          </span>
+                          <span>{value.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* API Key Input */}
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-700 flex justify-between items-center">
+                    <span>2. AI 接口密钥 (API Key)</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="input-api-key"
+                      type="text"
+                      placeholder="例如: sk-..."
+                      value={aiSettings.apiKey}
+                      onChange={(e) => setAiSettings({ ...aiSettings, apiKey: e.target.value })}
+                      className="w-full text-sm bg-slate-50 border-2 border-slate-200 focus:border-emerald-400 focus:bg-white rounded-2xl px-3.5 py-2.5 outline-none font-mono transition"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-400 leading-relaxed font-sans mt-1">
+                    🔒 您的密钥仅保存在用户浏览器本地缓存中（localStorage），绝对不会上传到任何中间服务器，请放心使用。
+                  </p>
+                </div>
+
+                {/* API Base URL */}
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-700">
+                    3. 接口基础链接 (API Base URL)
+                  </label>
+                  <input
+                    id="input-base-url"
+                    type="text"
+                    placeholder="https://..."
+                    value={aiSettings.baseUrl}
+                    onChange={(e) => setAiSettings({ ...aiSettings, baseUrl: e.target.value })}
+                    className="w-full text-sm bg-slate-50 border-2 border-slate-200 focus:border-emerald-400 focus:bg-white rounded-2xl px-3.5 py-2.5 outline-none font-mono transition"
+                  />
+                </div>
+
+                {/* Model Name */}
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-700">
+                    4. 模型名称 (Model Name)
+                  </label>
+                  <input
+                    id="input-model-name"
+                    type="text"
+                    placeholder="例如: gpt-4o-mini 或 deepseek-chat"
+                    value={aiSettings.model}
+                    onChange={(e) => setAiSettings({ ...aiSettings, model: e.target.value })}
+                    className="w-full text-sm bg-slate-50 border-2 border-slate-200 focus:border-emerald-400 focus:bg-white rounded-2xl px-3.5 py-2.5 outline-none font-mono transition"
+                  />
+                </div>
+
+              </div>
+
+              {/* Action buttons footer inside modal */}
+              <div className="flex items-center gap-3 mt-6 pt-4 border-t border-slate-100">
+                <button
+                  id="btn-save-ai-settings"
+                  onClick={() => {
+                    saveAISettings(aiSettings);
+                    setShowAiSettings(false);
+                    alert("🎉 恭喜！AI 助手接口设置及保存成功！现在可开启全景批改和魔法创意啦！");
+                  }}
+                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-sm py-3 px-6 rounded-2xl transition active:scale-95 shadow-md flex items-center justify-center gap-1.5"
+                >
+                  <Sparkles className="w-4 h-4 fill-current text-white/80" />
+                  保存并关闭配置
+                </button>
+
+                <button
+                  id="btn-cancel-ai-settings"
+                  onClick={() => {
+                    setAiSettings(getAISettings());
+                    setShowAiSettings(false);
+                  }}
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm py-3 px-5 rounded-2xl transition active:scale-95"
+                >
+                  取消
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

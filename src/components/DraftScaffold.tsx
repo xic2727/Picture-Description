@@ -2,6 +2,7 @@ import { Scene, MagicHint } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Lightbulb, HelpCircle, Check, Loader2, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import { AISettings, generateHints } from '../lib/aiService';
 
 // Static scaffolding guidelines tailored for each scene
 const STATIC_SCAFFOLD: Record<string, Array<{ label: string; element: string; examples: string[] }>> = {
@@ -40,9 +41,11 @@ interface DraftScaffoldProps {
   exploredWords: string[];
   onAddText: (text: string) => void;
   draftText: string;
+  aiSettings: AISettings;
+  onOpenSettings: () => void;
 }
 
-export default function DraftScaffold({ scene, exploredWords, onAddText, draftText }: DraftScaffoldProps) {
+export default function DraftScaffold({ scene, exploredWords, onAddText, draftText, aiSettings, onOpenSettings }: DraftScaffoldProps) {
   const [activeTab, setActiveTab] = useState<'tips' | 'magic'>('tips');
   const [magicHints, setMagicHints] = useState<MagicHint[]>([]);
   const [loading, setLoading] = useState(false);
@@ -56,24 +59,14 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
   };
 
   const getMagicHints = async () => {
+    if (!aiSettings.apiKey) {
+      setError("请先配置您的 API Key 密钥以启动定制故事和启发式练习！");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/hints', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sceneTitle: scene.title,
-          sceneDesc: scene.description,
-          exploredWords: exploredWords
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("生成失败。请检查是否配置了您的 AI 秘钥。");
-      }
-
-      const data = await response.json();
+      const data = await generateHints(aiSettings, scene, exploredWords);
       setMagicHints(data);
       setActiveTab('magic');
     } catch (err: any) {
@@ -185,15 +178,25 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
                 </p>
               </div>
             ) : error ? (
-              <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-center text-sm text-indigo-800 space-y-2">
-                <p>{error}</p>
-                <button
-                  id="btn-retry-hints"
-                  onClick={getMagicHints}
-                  className="bg-indigo-600 text-white font-bold px-4 py-1.5 rounded-full"
-                >
-                  重试魔法生成
-                </button>
+              <div className="p-4 rounded-xl bg-indigo-50 border border-indigo-100 text-center text-sm text-indigo-800 space-y-3">
+                <p className="font-medium leading-relaxed">{error}</p>
+                {!aiSettings.apiKey ? (
+                  <button
+                    id="btn-go-settings-from-scaffold"
+                    onClick={onOpenSettings}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-1.5 font-bold transition mx-auto block text-xs active:scale-95"
+                  >
+                    ⚙️ 点我配置 AI 助手密钥
+                  </button>
+                ) : (
+                  <button
+                    id="btn-retry-hints"
+                    onClick={getMagicHints}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-1.5 font-bold transition mx-auto block text-xs active:scale-95"
+                  >
+                    重试魔法生成 🔮
+                  </button>
+                )}
               </div>
             ) : magicHints.length > 0 ? (
               <motion.div
@@ -243,8 +246,17 @@ export default function DraftScaffold({ scene, exploredWords, onAddText, draftTe
                 ))}
               </motion.div>
             ) : (
-              <div className="text-center py-12 text-slate-500 text-sm">
-                点击按钮，召唤 AI 批改老师在您写作到难关时，赋予灵感吧！✨
+              <div className="text-center py-12 text-slate-500 text-sm space-y-3">
+                <p>点击下方“换一换”或进入此页面，召唤贝贝老师为您定制专属灵感句式哦！✨</p>
+                {!aiSettings.apiKey && (
+                  <button
+                    id="btn-init-settings-from-scaffold"
+                    onClick={onOpenSettings}
+                    className="bg-indigo-55 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-xl px-4 py-2 font-bold transition mx-auto flex items-center justify-center gap-1.5 text-xs active:scale-95"
+                  >
+                    ⚙️ 极速配置 API Key
+                  </button>
+                )}
               </div>
             )}
           </AnimatePresence>
