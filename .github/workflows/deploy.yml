@@ -7,11 +7,19 @@ on:
       - master
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
-    concurrency: ci-${{ github.ref }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -28,27 +36,30 @@ jobs:
       - name: Build Web Application 📦
         run: npm run build
 
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Setup Pages ⚙️
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact 📦
+        uses: actions/upload-pages-artifact@v3
         with:
-          folder: dist
-          branch: gh-pages
+          path: './dist'
+
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Print & Show Live Deployment URL 🌐
         run: |
-          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          REPO_NAME="${{ github.event.repository.name }}"
-          PAGES_URL="https://${OWNER_LC}.github.io/${REPO_NAME}/"
           echo "=========================================================="
           echo "🎉 恭喜！项目构建且发布成功啦！"
           echo "🌐 您的在线体验地址 (GitHub Pages Live URL) 是："
-          echo "👉 ${PAGES_URL}"
+          echo "👉 ${{ steps.deployment.outputs.page_url }}"
           echo "=========================================================="
           
           # 优雅地写入到 GitHub Step Summary 汇总页面中，用户一眼就能看见！
           echo "## 🚀 部署成功！" >> $GITHUB_STEP_SUMMARY
-          echo "您的“看图写话乐园”已成功上线至 **GitHub Pages**！" >> $GITHUB_STEP_SUMMARY
-          echo "👉 **[点击这里，立即打开在线乐园 🎈](${PAGES_URL})**" >> $GITHUB_STEP_SUMMARY
+          echo "您的“看图写话乐园”已成功从主分支直接部署上线至 **GitHub Pages**！" >> $GITHUB_STEP_SUMMARY
+          echo "👉 **[点击这里，立即打开在线乐园 🎈](${{ steps.deployment.outputs.page_url }})**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "> 💡 提示：首次部署后，GitHub Pages 生成网站可能需要 **1~2分钟** 的预热时间。如果打开遇到 404，请耐心稍等一下刷新即可。✨" >> $GITHUB_STEP_SUMMARY
+          echo "> 💡 提示：项目源自于您的主分支直接构建。请确保您的 GitHub 仓库设置中，**Pages** 的 **Source** 已选择为 **GitHub Actions** 模式。✨" >> $GITHUB_STEP_SUMMARY
 
